@@ -1,0 +1,23 @@
+{
+  "name": "xlsplay-vue",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@handsontable/vue3": "^13.0.0",
+    "file-saver": "^2.0.5",
+    "handsontable": "^13.0.0",
+    "pinia": "^2.1.4",
+    "vue": "^3.3.4",
+    "vuetify": "^3.3.11",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.4.6"
+  }
+}
