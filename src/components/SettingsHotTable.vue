@@ -1,5 +1,5 @@
 <template>
-  <hot-table ref="hotTableRef" :settings="choicesHotTableSettings" />
+  <hot-table ref="hotTableRef" :settings="hotTableSettings" />
 </template>
 
 <script setup>
@@ -15,13 +15,13 @@ const props = defineProps({
   colWidths: Array,
 });
 
-const choicesHotTableSettings = computed(() => ({
+const hotTableSettings = computed(() => ({
   ...commonHotTableSettings,
   colWidths: props.colWidths,
 }));
 
 watch(
-  () => spreadsheet.data.choices,
+  () => spreadsheet.data.settings,
   (newVal, oldVal) => {
     if (hotTableRef.value && hotTableRef.value.hotInstance) {
       hotTableRef.value.hotInstance.loadData(newVal);

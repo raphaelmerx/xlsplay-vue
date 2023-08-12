@@ -1,3 +1,5 @@
+import { textRenderer } from 'handsontable/renderers';
+
 export const beginGroupRowRenderer = function (instance, td, row, col, prop, value, cellProperties) {
   textRenderer.apply(this, arguments); // Use the default text renderer first
 
@@ -12,4 +14,26 @@ export const beginGroupRowRenderer = function (instance, td, row, col, prop, val
   } else if (rowData[0] === 'end repeat') {
     td.style.backgroundColor = '#F5F2F7';
   }
+};
+
+export const commonHotTableSettings = {
+  rowHeaders: true,
+  colHeaders: true,
+  height: '100vh',
+  licenseKey: 'non-commercial-and-evaluation', // for non-commercial use only
+  dropdownMenu: true,
+  manualColumnMove: true,
+  manualRowMove: true,
+  manualColumnResize: true,
+  fixedRowsTop: 1,
+  contextMenu: true,
+};
+
+export const createCallbackInsertRow = row => {
+  return function () {
+    var latestSelection = this.getSelectedRangeLast().getBottomRightCorner();
+    this.alter('insert_row_below', latestSelection.row, 1, 'ContextMenu.rowBelow');
+    var newRowIndex = latestSelection.row + 1;
+    this.populateFromArray(newRowIndex, 0, [row]);
+  };
 };
