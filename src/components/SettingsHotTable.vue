@@ -11,13 +11,9 @@ import { useSpreadsheetStore } from '../spreadsheetStore';
 const spreadsheet = useSpreadsheetStore();
 const hotTableRef = ref(null);
 
-const props = defineProps({
-  colWidths: Array,
-});
-
 const hotTableSettings = computed(() => ({
   ...commonHotTableSettings,
-  colWidths: props.colWidths,
+  colWidths: spreadsheet.colWidths.settings,
 }));
 
 watch(

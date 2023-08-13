@@ -8,6 +8,11 @@ export const useSpreadsheetStore = defineStore({
       choices: undefined,
       settings: undefined,
     },
+    colWidths: {
+      survey: undefined,
+      choices: undefined,
+      settings: undefined,
+    },
     isUpdating: false,
   }),
   actions: {
@@ -21,6 +26,11 @@ export const useSpreadsheetStore = defineStore({
     setData(allSheetData) {
       Object.keys(allSheetData).forEach(sheetName => {
         this.setSheetData(sheetName, allSheetData[sheetName]);
+      });
+    },
+    setColWidths(colWidths) {
+      Object.keys(colWidths).forEach(sheetName => {
+        this.colWidths[sheetName] = colWidths[sheetName];
       });
     },
   },

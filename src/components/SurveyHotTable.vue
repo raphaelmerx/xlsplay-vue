@@ -10,17 +10,12 @@ import { ContextMenu } from 'handsontable/plugins/contextMenu';
 import { watch, ref, defineProps, computed } from 'vue';
 import { useSpreadsheetStore } from '../spreadsheetStore';
 
-const props = defineProps({
-  colWidths: Array, // or another appropriate type, depending on your structure
-  // Other props as needed
-});
-
 const spreadsheet = useSpreadsheetStore();
 const hotTableRef = ref(null);
 
 const surveyHotTableSettings = computed(() => ({
   ...commonHotTableSettings,
-  colWidths: props.colWidths,
+  colWidths: spreadsheet.colWidths.survey,
   cells: surveyCellsOption(spreadsheet.questionIds),
   contextMenu: surveyContextMenu,
 }));
