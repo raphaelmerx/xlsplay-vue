@@ -9,7 +9,10 @@
           accept=".xlsx, .xls"
           @change="handleFileUpload"
         >
-          <el-button type="primary">Upload File</el-button>
+          <el-button type="success" plain>
+            <el-icon class="el-icon--left"><Upload /></el-icon>
+            Upload File
+          </el-button>
         </el-upload>
       </div>
       <div>OR</div>
@@ -34,7 +37,7 @@
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Ok</el-button>
+        <el-button @click="dialogVisible = false">Done</el-button>
       </span>
     </template>
   </el-dialog>

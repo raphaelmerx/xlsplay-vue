@@ -5,13 +5,16 @@
         <splitpanes class="default-theme" :push-other-pages="true">
           <pane min-size="20" max-size="80" :push-other-panes="true">
             <div class="buttons-container">
-              <el-button @click="showFileModal = true">Load new file</el-button>
+              <el-button @click="showFileModal = true" type="success" plain>
+                <el-icon class="el-icon--left"><Plus /></el-icon>
+                Load new file
+              </el-button>
               <FileModal v-if="showFileModal" @close="showFileModal = false" />
               <div v-if="spreadsheet.data.survey" class="grid-item">
-                <el-button @click="handleFileDownload">Download</el-button>
+                <el-button @click="handleFileDownload" type="success" plain>Download</el-button>
               </div>
               <div v-if="spreadsheet.data.survey" class="grid-item">
-                <el-button type="primary" @click="handleFilePreview">Preview</el-button>
+                <el-button type="success" @click="handleFilePreview">Preview</el-button>
               </div>
             </div>
 

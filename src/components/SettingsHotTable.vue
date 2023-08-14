@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { watch, ref, defineProps, computed } from 'vue';
+import { watch, ref, defineProps, computed, onMounted } from 'vue';
 import { HotTable } from '@handsontable/vue3';
 import { createCallbackInsertRow, commonHotTableSettings } from '../hottable_utils';
 import { useSpreadsheetStore } from '../spreadsheetStore';
@@ -24,6 +24,12 @@ watch(
     }
   },
 );
+
+onMounted(() => {
+  if (hotTableRef.value && hotTableRef.value.hotInstance) {
+    hotTableRef.value.hotInstance.loadData(spreadsheet.data.settings);
+  }
+});
 </script>
 
 <style scoped></style>
