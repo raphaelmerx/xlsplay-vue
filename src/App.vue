@@ -14,7 +14,10 @@
               </el-button>
               <FileModal v-if="showFileModal" @close="showFileModal = false" />
               <div v-if="spreadsheet.data.survey" class="grid-item">
-                <el-button @click="handleFileDownload" type="success" plain>Download</el-button>
+                <el-button @click="handleFileDownload" type="success" plain>
+                  <el-icon class="el-icon--left"><Download /></el-icon>
+                  Download
+                </el-button>
               </div>
               <div v-if="spreadsheet.data.survey" class="grid-item">
                 <el-button type="success" @click="handleFilePreview" :loading="isPreviewLoading">Preview</el-button>
