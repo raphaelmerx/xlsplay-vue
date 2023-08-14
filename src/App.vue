@@ -14,7 +14,7 @@
                 <el-button @click="handleFileDownload" type="success" plain>Download</el-button>
               </div>
               <div v-if="spreadsheet.data.survey" class="grid-item">
-                <el-button type="success" @click="handleFilePreview">Preview</el-button>
+                <el-button type="success" @click="handleFilePreview" :loading="isPreviewLoading">Preview</el-button>
               </div>
             </div>
 
@@ -62,12 +62,15 @@ const sheetName = ref('survey');
 const previewUrl = ref(null);
 const showFileModal = ref(false);
 
+const isPreviewLoading = ref(false);
+
 const handleFilePreview = async () => {
   const fileBlob = constructSpreadsheet(spreadsheet.data);
 
   let formData = new FormData();
   formData.append('file', fileBlob, 'spreadsheet.xlsx');
   try {
+    isPreviewLoading.value = true;
     const url =
       process.env.NODE_ENV === 'development'
         ? 'http://127.0.0.1:8000/api/xform/'
@@ -76,6 +79,7 @@ const handleFilePreview = async () => {
       method: 'POST',
       body: formData,
     });
+    isPreviewLoading.value = false;
 
     // if it's a 400 error, show the message in response.json()["error"]
     if (response.status === 400) {
@@ -92,6 +96,7 @@ const handleFilePreview = async () => {
     const xml_url = data.xml_url;
     previewUrl.value = `https://staging.enketo.getodk.org/preview?form=${xml_url}`;
   } catch (error) {
+    isPreviewLoading.value = false;
     alert('There was a problem with the request:', error);
   }
 };
