@@ -37,3 +37,9 @@ export const createCallbackInsertRow = row => {
     this.populateFromArray(newRowIndex, 0, [row]);
   };
 };
+
+export const loadDataToHotTableRef = (hotTableRef, data) => {
+  if (hotTableRef.value && hotTableRef.value.hotInstance) {
+    hotTableRef.value.hotInstance.loadData(data);
+  }
+};

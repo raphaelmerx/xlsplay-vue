@@ -5,7 +5,7 @@
 <script setup>
 import { watch, ref, defineProps, computed, onMounted } from 'vue';
 import { HotTable } from '@handsontable/vue3';
-import { createCallbackInsertRow, commonHotTableSettings } from '../hottable_utils';
+import { commonHotTableSettings, loadDataToHotTableRef } from '../hottable_utils';
 import { useSpreadsheetStore } from '../spreadsheetStore';
 
 const spreadsheet = useSpreadsheetStore();
@@ -19,16 +19,12 @@ const hotTableSettings = computed(() => ({
 watch(
   () => spreadsheet.data.settings,
   (newVal, oldVal) => {
-    if (hotTableRef.value && hotTableRef.value.hotInstance) {
-      hotTableRef.value.hotInstance.loadData(newVal);
-    }
+    loadDataToHotTableRef(hotTableRef, newVal);
   },
 );
 
 onMounted(() => {
-  if (hotTableRef.value && hotTableRef.value.hotInstance) {
-    hotTableRef.value.hotInstance.loadData(spreadsheet.data.settings);
-  }
+  loadDataToHotTableRef(hotTableRef, spreadsheet.data.settings);
 });
 </script>
 

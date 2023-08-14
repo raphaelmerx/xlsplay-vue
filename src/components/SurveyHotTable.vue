@@ -5,7 +5,7 @@
 <script setup>
 import { HotTable } from '@handsontable/vue3';
 import { xlsform_question_types } from '../utils';
-import { createCallbackInsertRow, commonHotTableSettings } from '../hottable_utils';
+import { createCallbackInsertRow, commonHotTableSettings, loadDataToHotTableRef } from '../hottable_utils';
 import { ContextMenu } from 'handsontable/plugins/contextMenu';
 import { watch, ref, defineProps, computed } from 'vue';
 import { useSpreadsheetStore } from '../spreadsheetStore';
@@ -23,16 +23,12 @@ const surveyHotTableSettings = computed(() => ({
 watch(
   () => spreadsheet.data.survey,
   (newVal, oldVal) => {
-    if (hotTableRef.value && hotTableRef.value.hotInstance) {
-      hotTableRef.value.hotInstance.loadData(newVal);
-    }
+    loadDataToHotTableRef(hotTableRef, newVal);
   },
 );
 
 onMounted(() => {
-  if (hotTableRef.value && hotTableRef.value.hotInstance) {
-    hotTableRef.value.hotInstance.loadData(spreadsheet.data.survey);
-  }
+  loadDataToHotTableRef(hotTableRef, spreadsheet.data.survey);
 });
 
 const surveyCellsOption = function (questionIds) {
