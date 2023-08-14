@@ -4,6 +4,9 @@
       <div class="App">
         <div class="split-container">
           <div class="pane" ref="leftPane">
+            <div v-if="!spreadsheet.data.survey" class="intro-text">
+              Welcome to XLSPlay! Start by loading an XLSForm:
+            </div>
             <div class="buttons-container">
               <el-button @click="showFileModal = true" type="success" plain>
                 <el-icon class="el-icon--left"><Plus /></el-icon>
@@ -142,5 +145,9 @@ const startResize = event => {
   cursor: ew-resize;
   width: 5px; /* Adjust as needed */
   background-color: #ccc; /* Adjust as needed */
+}
+
+.intro-text {
+  margin-top: 1rem;
 }
 </style>

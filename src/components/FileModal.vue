@@ -1,5 +1,7 @@
 <template>
-  <el-dialog v-model="dialogVisible" title="Load a new XLSForm">
+  <el-dialog v-model="dialogVisible" title="Load an XLSForm">
+    You can either upload an XLSForm, or select one from our library of examples. Files must have sheets survey,
+    choices, and settings.
     <div class="buttons-container">
       <div>
         <el-upload
