@@ -2,8 +2,8 @@
   <el-config-provider>
     <main>
       <div class="App">
-        <splitpanes class="default-theme" :push-other-pages="true">
-          <pane min-size="20" max-size="80" :push-other-panes="true">
+        <div class="split-container">
+          <div class="pane" ref="leftPane">
             <div class="buttons-container">
               <el-button @click="showFileModal = true" type="success" plain>
                 <el-icon class="el-icon--left"><Plus /></el-icon>
@@ -18,28 +18,24 @@
               </div>
             </div>
 
-            <v-tabs v-model="sheetName" grow>
+            <v-tabs v-model="sheetName" v-if="spreadsheet.data.survey">
               <v-tab v-for="(sheetName, index) in Object.keys(spreadsheet.data)" :key="index">
                 {{ sheetName }}
               </v-tab>
             </v-tabs>
-            <v-card-text>
-              <v-window v-model="sheetName">
-                <v-window-item
-                  v-for="(sheetName, index) in Object.keys(spreadsheet.data)"
-                  :key="`${sheetName}_${index}`"
-                >
-                  <SurveyHotTable v-if="sheetName === 'survey'" />
-                  <ChoicesHotTable v-if="sheetName === 'choices'" />
-                  <SettingsHotTable v-if="sheetName === 'settings'" />
-                </v-window-item>
-              </v-window>
-            </v-card-text>
-          </pane>
-          <pane min-size="20" max-size="80">
+            <v-window v-model="sheetName" v-if="spreadsheet.data.survey">
+              <v-window-item v-for="(sheetName, index) in Object.keys(spreadsheet.data)" :key="`${sheetName}_${index}`">
+                <SurveyHotTable v-if="sheetName === 'survey'" />
+                <ChoicesHotTable v-if="sheetName === 'choices'" />
+                <SettingsHotTable v-if="sheetName === 'settings'" />
+              </v-window-item>
+            </v-window>
+          </div>
+          <div class="resizer" @mousedown="startResize" v-if="previewUrl"></div>
+          <div class="pane">
             <iframe v-if="previewUrl" :src="previewUrl" class="full-size-iframe"></iframe>
-          </pane>
-        </splitpanes>
+          </div>
+        </div>
       </div>
     </main>
   </el-config-provider>
@@ -50,9 +46,6 @@ import { ref } from 'vue';
 import { registerRenderer } from 'handsontable/renderers';
 import { registerAllModules } from 'handsontable/registry';
 import { saveAs } from 'file-saver';
-
-import { Splitpanes, Pane } from 'splitpanes';
-import 'splitpanes/dist/splitpanes.css';
 
 import { beginGroupRowRenderer } from './hottable_utils';
 import SurveyHotTable from './components/SurveyHotTable.vue';
@@ -107,6 +100,22 @@ const handleFileDownload = async () => {
   const fileBlob = constructSpreadsheet(spreadsheet.data);
   saveAs(fileBlob, 'spreadsheet.xlsx');
 };
+
+const leftPane = ref(null);
+
+const startResize = event => {
+  const performResize = event => {
+    leftPane.value.style.width = `${event.clientX}px`;
+  };
+
+  const stopResize = () => {
+    window.removeEventListener('mousemove', performResize);
+    window.removeEventListener('mouseup', stopResize);
+  };
+
+  window.addEventListener('mousemove', performResize);
+  window.addEventListener('mouseup', stopResize);
+};
 </script>
 
 <style scoped>
@@ -114,5 +123,19 @@ const handleFileDownload = async () => {
   width: 400px;
   height: 100vh;
   border: none;
+}
+.split-container {
+  display: flex;
+}
+
+.pane {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.resizer {
+  cursor: ew-resize;
+  width: 5px; /* Adjust as needed */
+  background-color: #ccc; /* Adjust as needed */
 }
 </style>

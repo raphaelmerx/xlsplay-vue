@@ -29,6 +29,12 @@ watch(
   },
 );
 
+onMounted(() => {
+  if (hotTableRef.value && hotTableRef.value.hotInstance) {
+    hotTableRef.value.hotInstance.loadData(spreadsheet.data.survey);
+  }
+});
+
 const surveyCellsOption = function (questionIds) {
   return function (row, col) {
     const cellProperties = {};
