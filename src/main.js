@@ -12,7 +12,9 @@ import * as directives from 'vuetify/directives';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import LogRocket from 'logrocket';
 
-LogRocket.init('jymlud/xlsplayraphadev');
+if (import.meta.env.PROD) {
+  LogRocket.init('jymlud/xlsplayraphadev');
+}
 
 const vuetify = createVuetify({
   components,

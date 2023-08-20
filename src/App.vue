@@ -138,6 +138,11 @@ const startResize = event => {
 .split-container {
   display: flex;
 }
+@media (max-width: 768px) {
+  .split-container {
+    flex-direction: column;
+  }
+}
 
 .pane {
   flex-grow: 1;
