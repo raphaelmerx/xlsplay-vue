@@ -1,5 +1,5 @@
 <template>
-  <hot-table ref="hotTableRef" :settings="choicesHotTableSettings" />
+  <hot-table ref="hotTableRef" :settings="hotTableSettings" />
 </template>
 
 <script setup>
@@ -11,7 +11,7 @@ import { useSpreadsheetStore } from '../spreadsheetStore';
 const spreadsheet = useSpreadsheetStore();
 const hotTableRef = ref(null);
 
-const choicesHotTableSettings = computed(() => ({
+const hotTableSettings = computed(() => ({
   ...commonHotTableSettings,
   colWidths: spreadsheet.colWidths.choices,
 }));

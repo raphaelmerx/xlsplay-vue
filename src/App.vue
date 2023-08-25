@@ -40,7 +40,7 @@
               <v-window-item v-for="(sheetName, index) in Object.keys(spreadsheet.data)" :key="`${sheetName}_${index}`">
                 <SurveyHotTable v-if="sheetName === 'survey'" />
                 <ChoicesHotTable v-if="sheetName === 'choices'" />
-                <SettingsHotTable v-if="sheetName === 'settings'" />
+                <DefaultHotTable v-if="sheetName !== 'survey' && sheetName !== 'choices'" :sheetName="sheetName" />
               </v-window-item>
             </v-window>
           </div>
@@ -63,7 +63,7 @@ import { saveAs } from 'file-saver';
 import { beginGroupRowRenderer } from './hottable_utils';
 import SurveyHotTable from './components/SurveyHotTable.vue';
 import ChoicesHotTable from './components/ChoicesHotTable.vue';
-import SettingsHotTable from './components/SettingsHotTable.vue';
+import DefaultHotTable from './components/DefaultHotTable.vue';
 import FileModal from './components/FileModal.vue';
 import { constructSpreadsheet } from './utils';
 
