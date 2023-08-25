@@ -2,6 +2,13 @@
   <el-config-provider>
     <main>
       <div class="App">
+        <v-snackbar v-model="previewSnackbar" multi-line vertical location="bottom" timeout="-1">
+          {{ previewText }}
+
+          <template v-slot:actions>
+            <v-btn color="red" variant="text" @click="previewSnackbar = false"> Close </v-btn>
+          </template>
+        </v-snackbar>
         <div class="split-container">
           <div class="pane" ref="leftPane">
             <div v-if="!spreadsheet.data.survey" class="intro-text">
@@ -69,6 +76,8 @@ const previewUrl = ref(null);
 const showFileModal = ref(false);
 
 const isPreviewLoading = ref(false);
+const previewSnackbar = ref(false);
+const previewText = ref('');
 
 const handleFilePreview = async () => {
   const fileBlob = constructSpreadsheet(spreadsheet.data);
@@ -86,11 +95,13 @@ const handleFilePreview = async () => {
       body: formData,
     });
     isPreviewLoading.value = false;
+    previewSnackbar.value = false;
 
     // if it's a 400 error, show the message in response.json()["error"]
     if (response.status === 400) {
       const data = await response.json();
-      alert(data['error']);
+      previewSnackbar.value = true;
+      previewText.value = data['error'];
       return;
     }
 
@@ -103,7 +114,8 @@ const handleFilePreview = async () => {
     previewUrl.value = `https://staging.enketo.getodk.org/preview?form=${xml_url}`;
   } catch (error) {
     isPreviewLoading.value = false;
-    alert('There was a problem with the request:', error);
+    previewSnackbar.value = true;
+    previewText.value = error;
   }
 };
 
